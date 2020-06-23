@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 7b988b25e0098f702b7688dd87a808bec0d2197f255df937bd4e4ba9185845fe
+-- hash: 9e0987d14d2926ef17dbbed622b0ea68466b2c788a4d0157618c3bb73c8a39cb
 
 name:           scratch-bit
 version:        0.1.0.0
@@ -28,12 +28,15 @@ source-repository head
 library
   exposed-modules:
       Lib
+      Utils
   other-modules:
       Paths_scratch_bit
   hs-source-dirs:
       src
   build-depends:
       base >=4.7 && <5
+    , bytestring
+    , cryptohash-sha256 ==0.11.101.0
     , time
   default-language: Haskell2010
 
@@ -46,6 +49,8 @@ executable scratch-bit-exe
   ghc-options: -threaded -rtsopts -with-rtsopts=-N
   build-depends:
       base >=4.7 && <5
+    , bytestring
+    , cryptohash-sha256 ==0.11.101.0
     , scratch-bit
     , time
   default-language: Haskell2010
@@ -60,6 +65,8 @@ test-suite scratch-bit-test
   ghc-options: -threaded -rtsopts -with-rtsopts=-N
   build-depends:
       base >=4.7 && <5
+    , bytestring
+    , cryptohash-sha256 ==0.11.101.0
     , scratch-bit
     , time
   default-language: Haskell2010
