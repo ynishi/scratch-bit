@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 9e0987d14d2926ef17dbbed622b0ea68466b2c788a4d0157618c3bb73c8a39cb
+-- hash: 98a744edc91a3fb2846b4ffee935d8c7597ed6b4e0315137aca7503bdcc85674
 
 name:           scratch-bit
 version:        0.1.0.0
@@ -27,6 +27,7 @@ source-repository head
 
 library
   exposed-modules:
+      BlockChain
       Lib
       Utils
   other-modules:
