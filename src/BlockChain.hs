@@ -41,7 +41,7 @@ updateChain bc now =
         ]
     }
   where
-    nonce = proofOfWork bc now
+    nonce = proofOfWork bc
 
 hashBlock = sha . show
 
@@ -54,7 +54,7 @@ solvNonce block False =
     block {_nonce = _nonce block + 1}
     (all (uncurry (==)) $ zip (take difficulty (hashBlock block)) (repeat '0'))
 
-proofOfWork bc now = solvNonce block False
+proofOfWork bc = solvNonce block False
   where
     trs = _pool bc
     prev = last (_chain bc)
