@@ -12,8 +12,9 @@ type Trans = BlockChain
 type Blk = BlockChain
 
 data BlockChain
-  = BlockChain { _pool  :: [Trans]
-               , _chain :: [Blk] }
+  = BlockChain { _pool    :: [Trans]
+               , _chain   :: [Blk]
+               , _address :: String }
   | Transaction { _sender    :: String
                 , _recipient :: String
                 , _value     :: Float }
@@ -23,29 +24,28 @@ data BlockChain
           , _prev_hash    :: String }
   deriving (Show)
 
-defaultBlockChain now = BlockChain {_pool = [], _chain = [defaultBlock now]}
+defaultBlockChain now address =
+  BlockChain {_pool = [], _chain = [defaultBlock now], _address = address}
 
 defaultBlock now = Block now [] 0 (sha "")
 
-updateChain bc now =
-  bc
-    { _pool = []
-    , _chain =
-        _chain bc ++
-        [ Block
-            { _ts = now
-            , _nonce = nonce
-            , _transactions = _pool bc
-            , _prev_hash = hashBlock $ last (_chain bc)
-            }
-        ]
+updateChain bc block now = bc {_pool = [], _chain = _chain bc ++ [block]}
+
+createBlock bc nonce now =
+  Block
+    { _ts = now
+    , _nonce = nonce
+    , _transactions = _pool bc
+    , _prev_hash = hashBlock $ last (_chain bc)
     }
-  where
-    nonce = proofOfWork bc
 
 hashBlock = sha . show
 
 difficulty = 2
+
+sender = "The BC"
+
+reword = 1.0
 
 solvNonce :: BlockChain -> Bool -> Integer
 solvNonce block True = _nonce block - 1
@@ -70,8 +70,16 @@ proofOfWork bc = solvNonce block False
 
 addTrans bc trans = bc {_pool = _pool bc ++ [trans]}
 
-pp (BlockChain _ c) =
+mining bc now = updateChain bc block now
+  where
+    block = createBlock added nonce now
+    nonce = proofOfWork added
+    added = addTrans bc tr
+    tr = Transaction sender (_address bc) reword
+
+pp (BlockChain _ c a) =
   putStrLn $
+  a ++
   concatMap
     (\(i, xs) ->
        replicate 25 '=' ++
@@ -94,14 +102,15 @@ pp (BlockChain _ c) =
 
 doMain = do
   d1 <- getCurrentTime
-  let blockChain1 = defaultBlockChain d1
+  let blockChain1 = defaultBlockChain d1 "miner_address"
   let blockChain1a = addTrans blockChain1 (Transaction "A" "B" 1.0)
-  pp blockChain1a
   d2 <- getCurrentTime
-  let blockChain2 = updateChain blockChain1a d2
+  let blockChain2 = mining blockChain1a d2
+  let blockChain2_2 = mining blockChain1a d2
+  pp blockChain2 -- end 1
+  pp blockChain2_2 -- end 1(miner 2)
   let blockChain2a = addTrans blockChain2 (Transaction "C" "D" 2.0)
   let blockChain2b = addTrans blockChain2a (Transaction "X" "Y" 3.0)
-  pp blockChain2b
   d3 <- getCurrentTime
-  let blockChain3 = updateChain blockChain2b d3
-  pp blockChain3
+  let blockChain3 = mining blockChain2b d3
+  pp blockChain3 -- end 2
