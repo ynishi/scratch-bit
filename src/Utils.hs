@@ -12,5 +12,5 @@ hex = concatMap (flip showHex "") . B.unpack
 sha s = hex digest
   where
     digest = SHA256.finalize ctx
-    ctx = SHA256.update ctx0 $ C8.pack "test"
+    ctx = SHA256.update ctx0 $ C8.pack s
     ctx0 = SHA256.init

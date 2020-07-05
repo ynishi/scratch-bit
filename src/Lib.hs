@@ -1,5 +1,3 @@
-{-# LANGUAGE LambdaCase #-}
-
 module Lib where
 
 import           BlockChain as BC
