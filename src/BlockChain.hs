@@ -29,7 +29,7 @@ defaultBlockChain now address =
 
 defaultBlock now = Block now [] 0 (sha "")
 
-updateChain bc block now = bc {_pool = [], _chain = _chain bc ++ [block]}
+updateChain bc block = bc {_pool = [], _chain = _chain bc ++ [block]}
 
 createBlock bc nonce now =
   Block
@@ -70,12 +70,25 @@ proofOfWork bc = solvNonce block False
 
 addTrans bc trans = bc {_pool = _pool bc ++ [trans]}
 
-mining bc now = updateChain bc block now
+mining bc now = updateChain bc block
   where
     block = createBlock added nonce now
     nonce = proofOfWork added
     added = addTrans bc tr
     tr = Transaction sender (_address bc) reword
+
+calculateTotalAmount bc addr =
+  foldl
+    (\z x ->
+       if _sender x == addr
+         then z - _value x
+         else if _recipient x == addr
+                then z + _value x
+                else z)
+    0 $
+  concatMap _transactions $ _chain bc
+
+pct bc addr = putStrLn $ addr ++ ":" ++ show (calculateTotalAmount bc addr)
 
 pp (BlockChain _ c a) =
   putStrLn $
@@ -114,3 +127,7 @@ doMain = do
   d3 <- getCurrentTime
   let blockChain3 = mining blockChain2b d3
   pp blockChain3 -- end 2
+  pct blockChain3 "A"
+  pct blockChain3 "B"
+  pct blockChain3 "C"
+  pct blockChain3 "miner_address"
