@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 98a744edc91a3fb2846b4ffee935d8c7597ed6b4e0315137aca7503bdcc85674
+-- hash: e6071e6f98a1f596504578ff0c137e2f74760c65ba6063ac7ed5fbee25561dc6
 
 name:           scratch-bit
 version:        0.1.0.0
@@ -30,6 +30,7 @@ library
       BlockChain
       Lib
       Utils
+      Wallet
   other-modules:
       Paths_scratch_bit
   hs-source-dirs:
@@ -37,6 +38,9 @@ library
   build-depends:
       base >=4.7 && <5
     , bytestring
+    , crypto-pubkey
+    , crypto-pubkey-types
+    , crypto-random
     , cryptohash-sha256 ==0.11.101.0
     , time
   default-language: Haskell2010
@@ -51,6 +55,9 @@ executable scratch-bit-exe
   build-depends:
       base >=4.7 && <5
     , bytestring
+    , crypto-pubkey
+    , crypto-pubkey-types
+    , crypto-random
     , cryptohash-sha256 ==0.11.101.0
     , scratch-bit
     , time
@@ -67,6 +74,9 @@ test-suite scratch-bit-test
   build-depends:
       base >=4.7 && <5
     , bytestring
+    , crypto-pubkey
+    , crypto-pubkey-types
+    , crypto-random
     , cryptohash-sha256 ==0.11.101.0
     , scratch-bit
     , time

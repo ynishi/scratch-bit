@@ -24,6 +24,10 @@ dependencies:
 - time
 - cryptohash-sha256 == 0.11.101.0 
 - bytestring
+- crypto-pubkey
+- crypto-pubkey-types
+- crypto-random
+  # - cryptonite
 
 library:
   source-dirs: src
