@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: e6071e6f98a1f596504578ff0c137e2f74760c65ba6063ac7ed5fbee25561dc6
+-- hash: 57cf05fd41381110e6a03d937ee6eb6da184525c98e9b18f7c8ab7a90713b139
 
 name:           scratch-bit
 version:        0.1.0.0
@@ -37,7 +37,10 @@ library
       src
   build-depends:
       base >=4.7 && <5
+    , binary
     , bytestring
+    , crypto-api
+    , crypto-numbers
     , crypto-pubkey
     , crypto-pubkey-types
     , crypto-random
@@ -54,7 +57,10 @@ executable scratch-bit-exe
   ghc-options: -threaded -rtsopts -with-rtsopts=-N
   build-depends:
       base >=4.7 && <5
+    , binary
     , bytestring
+    , crypto-api
+    , crypto-numbers
     , crypto-pubkey
     , crypto-pubkey-types
     , crypto-random
@@ -73,7 +79,10 @@ test-suite scratch-bit-test
   ghc-options: -threaded -rtsopts -with-rtsopts=-N
   build-depends:
       base >=4.7 && <5
+    , binary
     , bytestring
+    , crypto-api
+    , crypto-numbers
     , crypto-pubkey
     , crypto-pubkey-types
     , crypto-random

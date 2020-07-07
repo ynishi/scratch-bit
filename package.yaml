@@ -26,7 +26,10 @@ dependencies:
 - bytestring
 - crypto-pubkey
 - crypto-pubkey-types
+- binary
 - crypto-random
+- crypto-api
+- crypto-numbers
   # - cryptonite
 
 library:

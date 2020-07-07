@@ -14,3 +14,5 @@ sha s = hex digest
     digest = SHA256.finalize ctx
     ctx = SHA256.update ctx0 $ C8.pack s
     ctx0 = SHA256.init
+
+fromKeyInt = flip showHex ""
